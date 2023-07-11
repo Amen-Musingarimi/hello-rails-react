@@ -7,9 +7,18 @@ module.exports = {
   entry: {
     application: './app/javascript/application.js',
   },
+  module: {
+    rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+    ],
+  },
   output: {
     filename: '[name].js',
-    sourceMapFilename: '[file].map',
+    sourceMapFilename: '[name].js.map',
     path: path.resolve(__dirname, 'app/assets/builds'),
   },
   plugins: [
@@ -18,10 +27,3 @@ module.exports = {
     }),
   ],
 };
-
-const { environment } = require('@rails/webpacker');
-
-const babelLoader = environment.loaders.get('babel');
-babelLoader.exclude = /node_modules\/(?!(jsbundling-rails)\/).*/;
-
-module.exports = environment;
